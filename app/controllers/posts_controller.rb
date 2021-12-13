@@ -1,20 +1,17 @@
 class PostsController < ApplicationController
   def index
+    @post = Post.new 
     @posts = Post.all.page(params[:page]).order(created_at: :desc).per(10)
-  end
-  
-  def new
-    @post = Post.new
   end
 
   def create
-    @post = Post.create!(post_params)
+     @post = Post.create!(post_params)
     redirect_to action: :index
   end 
 
   private
 
   def post_params
-    params.permit(:body)
+    params.require(:post).permit(:body)
   end
 end
